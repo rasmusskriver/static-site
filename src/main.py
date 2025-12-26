@@ -2,9 +2,7 @@ from textnode import TextNode, TextType
 
 
 def main():
-    text = "This is some text"
-    url = "www.bootdev.dev"
-    node = TextNode(text, TextType.LINK, url)
+    node = TextNode("This is a text node", TextType.BOLD, "https://www.boot.dev")
     print(node)
 
 
