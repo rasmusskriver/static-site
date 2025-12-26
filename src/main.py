@@ -2,8 +2,10 @@ from textnode import TextNode
 
 
 def main():
-    fisk = "This is some anchor text, link, https://www.boot.dev"
-    node = TextNode(fisk)
+    text = "This is some text"
+    text_type = "text"
+    url = "www.bootdev.dev"
+    node = TextNode(text, text_type, url)
     print(node)
 
 
