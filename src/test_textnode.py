@@ -9,6 +9,11 @@ class TestTextNode(unittest.TestCase):
         node2 = TextNode("This is a text node", TextType.BOLD)
         self.assertEqual(node, node2)
 
+    def test_not_eg(self):
+        node3 = TextNode("This is a text node", TextType.LINK)
+        node4 = TextNode("This is a text node", TextType.BOLD)
+        self.assertNotEqual(node3, node4)
+
 
 if __name__ == "__main__":
     unittest.main()
