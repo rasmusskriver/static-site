@@ -14,4 +14,7 @@ class TestHTMLNode(unittest.TestCase):
                 "target": "_blank",
             },
         )
-        self.assertEqual("this is the correct", repr(node))
+        self.assertEqual(
+            "HTMLNode: tag=h1 value=the text inside a paragraph children=['h1, p'] props={'href': 'https://www.google.com', 'target': '_blank'}",
+            repr(node),
+        )
