@@ -1,11 +1,10 @@
-from textnode import TextNode
+from textnode import TextNode, TextType
 
 
 def main():
     text = "This is some text"
-    text_type = "text"
     url = "www.bootdev.dev"
-    node = TextNode(text, text_type, url)
+    node = TextNode(text, TextType.TEXT, url)
     print(node)
 
 

@@ -21,4 +21,4 @@ class TextNode:
             return NotImplemented
 
     def __repr__(self):
-        return f"TextNode(text={self.text}, text_type={self.text_type}, url={self.url})"
+        return f"TextNode(text={self.text}, text_type={self.text_type.value}, url={self.url})"
