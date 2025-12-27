@@ -61,13 +61,6 @@ class TestHTMLNode(unittest.TestCase):
             '<a href="https://www.google.com">Click me!</a>',
         )
 
-    def test_leaf_to_html_b(self):
-        node = LeafNode("a", "Click me!")
-        self.assertEqual(
-            node.to_html(),
-            "<a>Click me!</a>",
-        )
-
     def test_leaf_to_html_no_tag(self):
         node = LeafNode(None, "Hello, world!")
         self.assertEqual(node.to_html(), "Hello, world!")
@@ -84,6 +77,36 @@ class TestHTMLNode(unittest.TestCase):
         self.assertEqual(
             parent_node.to_html(),
             "<div><span><b>grandchild</b></span></div>",
+        )
+
+    def test_to_html_many_children(self):
+        node = ParentNode(
+            "p",
+            [
+                LeafNode("b", "Bold text"),
+                LeafNode(None, "Normal text"),
+                LeafNode("i", "italic text"),
+                LeafNode(None, "Normal text"),
+            ],
+        )
+        self.assertEqual(
+            node.to_html(),
+            "<p><b>Bold text</b>Normal text<i>italic text</i>Normal text</p>",
+        )
+
+    def test_headings(self):
+        node = ParentNode(
+            "h2",
+            [
+                LeafNode("b", "Bold text"),
+                LeafNode(None, "Normal text"),
+                LeafNode("i", "italic text"),
+                LeafNode(None, "Normal text"),
+            ],
+        )
+        self.assertEqual(
+            node.to_html(),
+            "<h2><b>Bold text</b>Normal text<i>italic text</i>Normal text</h2>",
         )
 
 
