@@ -4,7 +4,7 @@ from pathlib import Path
 from markdown_blocks import markdown_to_html_node
 
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(basepath, from_path, template_path, dest_path):
     print(f" * {from_path} {template_path} -> {dest_path}")
     from_file = open(from_path, "r")
     markdown_content = from_file.read()
@@ -20,6 +20,8 @@ def generate_page(from_path, template_path, dest_path):
     title = extract_title(markdown_content)
     template = template.replace("{{ Title }}", title)
     template = template.replace("{{ Content }}", html)
+    template = template.replace('href="/', f'href="{basepath}')
+    template = template.replace('src="/', f'src="{basepath}')
 
     dest_dir_path = os.path.dirname(dest_path)
     if dest_dir_path != "":
@@ -36,11 +38,7 @@ def extract_title(md):
     raise ValueError("no title found")
 
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
-    """
-    Gennemløber content-mappen rekursivt og genererer HTML-filer
-    i public-mappen med samme mappestruktur.
-    """
+def generate_pages_recursive(basepath, dir_path_content, template_path, dest_dir_path):
 
     # Sørg for at destinationen findes
     os.makedirs(dest_dir_path, exist_ok=True)
@@ -52,11 +50,11 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
 
         # Hvis det er en mappe → kald funktionen rekursivt
         if os.path.isdir(content_path):
-            generate_pages_recursive(content_path, template_path, dest_path)
+            generate_pages_recursive(basepath, content_path, template_path, dest_path)
 
         # Hvis det er en markdown-fil → generér HTML
         elif os.path.isfile(content_path) and entry.endswith(".md"):
             # Skift .md til .html i destinationen
             dest_html_path = Path(dest_path).with_suffix(".html")
 
-            generate_page(content_path, template_path, dest_html_path)
+            generate_page(basepath, content_path, template_path, dest_html_path)
