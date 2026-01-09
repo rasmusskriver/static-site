@@ -1,4 +1,6 @@
 import os
+from pathlib import Path
+
 from markdown_blocks import markdown_to_html_node
 
 
@@ -32,3 +34,29 @@ def extract_title(md):
         if line.startswith("# "):
             return line[2:]
     raise ValueError("no title found")
+
+
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    """
+    Gennemløber content-mappen rekursivt og genererer HTML-filer
+    i public-mappen med samme mappestruktur.
+    """
+
+    # Sørg for at destinationen findes
+    os.makedirs(dest_dir_path, exist_ok=True)
+
+    # Gennemløb alle entries i den nuværende content-mappe
+    for entry in os.listdir(dir_path_content):
+        content_path = os.path.join(dir_path_content, entry)
+        dest_path = os.path.join(dest_dir_path, entry)
+
+        # Hvis det er en mappe → kald funktionen rekursivt
+        if os.path.isdir(content_path):
+            generate_pages_recursive(content_path, template_path, dest_path)
+
+        # Hvis det er en markdown-fil → generér HTML
+        elif os.path.isfile(content_path) and entry.endswith(".md"):
+            # Skift .md til .html i destinationen
+            dest_html_path = Path(dest_path).with_suffix(".html")
+
+            generate_page(content_path, template_path, dest_html_path)
